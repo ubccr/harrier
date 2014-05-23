@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block body %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+    {% if 'ERROR' in message %}
+    <div class="alert alert-danger alert-dismissable">
+    {% else %}
+    <div class="alert alert-info alert-dismissable">
+    {% endif %}
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+       {{ message }}
+    </div>
+ {% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="well well-lg">
+<form class="form-inline" role="form" action="{{ url_for('views.import_file') }}" method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    {{ form.input_file.label }}
+    {{ form.input_file(class_='form-control') }}
+  </div>
+  {{ form.csrf_token }}
+  <button type="submit" class="btn btn-primary">Import</button>
+</form>
+</div>
+
+<div class="page-header">
+  <h1><i class="fa fa-image fa-lg"></i> Image Sets</h1>
+</div>
+
+
+<div class="row">
+
+{% for s in sets %}
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <img src="{{ s.images[0].url }}" alt="...">
+      <div class="caption">
+        <p>
+            <a href="{{ url_for('views.add_targets', id=s.id) }}" class="btn btn-primary" role="button">Add Targets</a>
+            <a href="{{ url_for('views.results', id=s.id) }}" class="btn btn-default" role="button">Results</a>
+        </p>
+        <h3>{{ s.name }}</h3>
+        <p>{{ s.description if s.description is not none }}</p>
+      </div>
+    </div>
+  </div>
+  {% if loop.index % 3 == 0 %}
+  </div>
+  <div class="row">
+  {% endif %}
+{% endfor %}
+
+</div>
+
+{% endblock %}

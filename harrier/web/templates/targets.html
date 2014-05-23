@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<ol class="breadcrumb">
+  <li><a href="#">Image Sets</a></li>
+  <li><a href="#">SET NAME</a></li>
+  <li class="active">Image Name</li>
+</ol>
+
+<div class="panel panel-primary">
+  <div class="clearfix panel-heading">
+    <h3 style="display: inline" class="panel-title"><i class="fa fa-bullseye fa-lg"></i> &nbsp;Targets for Image Name</h3>
+       <div class="btn-group pull-right">
+        <a href="#" class="btn btn-default btn-sm">Export</a>
+      </div>
+  </div>
+
+<div class="table-responsive">
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th class="text-right">X</th>
+      <th class="text-right">Y</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for t in targets %}
+    <tr>
+      <td>{{ t.id }}</td>
+      <td>{{ t.name }}</td>
+      <td>{{ t.category }}</td>
+      <td class="text-right">{{ t.X }}</td>
+      <td class="text-right">{{ t.Y }}</td>
+    </tr>
+{% else %}
+    <tr>
+      <td colspan="5">No targets found</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+</div>
+
+</div>
+{% endblock %}

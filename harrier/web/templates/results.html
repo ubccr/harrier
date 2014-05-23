@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<div class="panel panel-primary">
+  <div class="clearfix panel-heading">
+    <h3 style="display: inline" class="panel-title"><i class="fa fa-image fa-lg"></i> &nbsp;{{ iset.name }}</h3>
+       <div class="btn-group pull-right">
+        <a href="{{ url_for('views.add_targets', id=iset.id) }}" class="btn btn-default btn-sm">Add Targets</a>
+        <a href="#" class="btn btn-default btn-sm">Export</a>
+      </div>
+  </div>
+
+    <div class="list-group">
+    {% for i in iset.images %}
+      <a href="/targets" class="list-group-item"><span class="badge">{{ i|length }}</span>{{ i.name }}</a>
+    {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
