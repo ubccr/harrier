@@ -84,7 +84,7 @@ class Target(db.Model):
     y = db.Column(db.Integer)
 
     def __repr__(self):
-        return '<Image %r>' % (self.name)
+        return '<Target %r>' % (self.name)
 
 class TargetSerializer(Serializer):
     class Meta:

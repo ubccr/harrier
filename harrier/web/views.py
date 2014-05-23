@@ -12,7 +12,7 @@ def index():
     sets = model.ImageSet.query.order_by(model.ImageSet.created_at).offset(offset).limit(limit)
     return flask.render_template('index.html', sets=sets, form=form)
 
-@bp.route('/import', methods=('POST',))
+@bp.route('/import', methods=['POST'])
 def import_file():
     form = model.ImageSetForm()
     if form.validate_on_submit():
@@ -39,11 +39,38 @@ def results(id):
     return flask.render_template('results.html', iset=iset)
 
 @bp.route('/data/imageset/<int:id>')
-def imageset_json(id):
+def imageset(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
     return flask.jsonify(model.ImageSetSerializer(iset).data)
 
-@bp.route('/data/image/<int:id>')
-def image_json(id):
+@bp.route('/data/image/<int:id>', methods=['GET'])
+def image(id):
     image = model.Image.query.filter_by(id=id).first_or_404()
     return flask.jsonify(model.ImageSerializer(image).data)
+
+@bp.route('/data/image/<int:id>/target/add', methods=['POST'])
+def image_target_add(id):
+    image = model.Image.query.filter_by(id=id).first_or_404()
+    try:
+        x = int(flask.request.form['x'])
+        y = int(flask.request.form['y'])
+        target = model.Target()
+        target.x = x
+        target.y = y
+        image.targets.append(target)
+
+        db.session.add(image)
+        db.session.commit()
+    except:
+        return flask.jsonify({'error': True}), 400
+        
+    return flask.jsonify({'error': False})
+
+@bp.route('/data/image/<int:id>/target/del', methods=['DELETE'])
+def image_target_del(id):
+    image = model.Image.query.filter_by(id=id).first_or_404()
+    image.targets = []
+    db.session.add(image)
+    db.session.commit()
+    return flask.jsonify({'error': False})
+

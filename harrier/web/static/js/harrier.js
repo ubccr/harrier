@@ -32,13 +32,19 @@ var Harrier = function() {
 
     function prev() {
         index--;
-        if(index <= 0) {
+        if(index < 0) {
             index = images.length - 1;
         }
         display();
     }
 
     function reset() {
+        $.ajax({
+            url: '/data/image/'+images[index]+'/target/del',
+            type: "DELETE",
+            success: function(data) {
+            }
+        });
         display();
     }
 
@@ -67,6 +73,9 @@ var Harrier = function() {
         img.height = height;
         img.onload = function(){
             ctx.drawImage(img,0,0, img.width, img.height);
+            $.each(idata.targets, function(index, t) {
+                drawCircle(t.x,t.y);
+            });
         }
 
         $("#image-name").text(idata.name);
@@ -105,6 +114,13 @@ var Harrier = function() {
         y -= canvas.offsetTop;
 
         drawCircle(x,y);
+        $.ajax({
+            url: '/data/image/'+images[index]+'/target/add',
+            type: "POST",
+            data: {'x': x, 'y': y},
+            success: function(data) {
+            }
+        });
     }
 
     return {
