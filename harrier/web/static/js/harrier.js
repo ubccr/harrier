@@ -93,6 +93,11 @@ var Harrier = function() {
 
         $("#image-name").text(idata.name);
         $("#cat").val(idata.category);
+        if(idata.category && idata.category.length > 0) {
+            $("#cat-label").text(idata.category);
+        } else {
+            $("#cat-label").text('Classify');
+        }
         var pct = Math.round((index/(images.length-1))*100)
         $('.progress-bar').css('width', pct+'%').attr('aria-valuenow', index).text((index+1)+' of '+images.length)
     }
