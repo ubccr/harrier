@@ -18,6 +18,7 @@ var Harrier = function() {
                 $('#reset').click(reset);
                 $('#prev').click(prev);
                 $('#next').click(next);
+                $('#save-cat').click(saveCategory);
             }
         });
     }
@@ -35,6 +36,18 @@ var Harrier = function() {
         if(index < 0) {
             index = images.length - 1;
         }
+        display();
+    }
+
+    function saveCategory() {
+        $.ajax({
+            url: '/data/image/'+images[index]+'/category',
+            type: "POST",
+            data: {'cat': $('#cat').val()},
+            success: function(data) {
+            }
+        });
+        $('.modal').modal('hide');
         display();
     }
 
@@ -79,6 +92,7 @@ var Harrier = function() {
         }
 
         $("#image-name").text(idata.name);
+        $("#cat").val(idata.category);
         var pct = Math.round((index/(images.length-1))*100)
         $('.progress-bar').css('width', pct+'%').attr('aria-valuenow', index).text((index+1)+' of '+images.length)
     }

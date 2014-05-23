@@ -74,3 +74,10 @@ def image_target_del(id):
     db.session.commit()
     return flask.jsonify({'error': False})
 
+@bp.route('/data/image/<int:id>/category', methods=['POST'])
+def image_category(id):
+    image = model.Image.query.filter_by(id=id).first_or_404()
+    image.category = flask.request.form['cat']
+    db.session.add(image)
+    db.session.commit()
+    return flask.jsonify({'error': False})
