@@ -2,6 +2,7 @@ import flask
 import csv
 import cStringIO
 from harrier.core import db
+from harrier.security import requires_auth
 import harrier.model as model
 
 bp = flask.Blueprint('views', __name__)
@@ -19,6 +20,7 @@ def about():
     return flask.render_template('about.html')
 
 @bp.route('/import', methods=['POST'])
+@requires_auth
 def import_file():
     form = model.ImageSetForm()
     if form.validate_on_submit():
@@ -55,6 +57,7 @@ def image_export(id):
     return flask.Response(generate(), mimetype='text/plain')
 
 @bp.route('/imageset/<int:id>/target')
+@requires_auth
 def add_targets(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
     iid = flask.request.args.get('iid', 0, type=int)
@@ -101,6 +104,7 @@ def image(id):
     return flask.jsonify(model.ImageSerializer(image).data)
 
 @bp.route('/data/image/<int:id>/target/add', methods=['POST'])
+@requires_auth
 def image_target_add(id):
     image = model.Image.query.filter_by(id=id).first_or_404()
     try:
@@ -119,6 +123,7 @@ def image_target_add(id):
     return flask.jsonify({'error': False})
 
 @bp.route('/data/image/<int:id>/target/del', methods=['DELETE'])
+@requires_auth
 def image_target_del(id):
     image = model.Image.query.filter_by(id=id).first_or_404()
     image.targets = []
@@ -127,6 +132,7 @@ def image_target_del(id):
     return flask.jsonify({'error': False})
 
 @bp.route('/data/image/<int:id>/category', methods=['POST'])
+@requires_auth
 def image_category(id):
     image = model.Image.query.filter_by(id=id).first_or_404()
     image.category = flask.request.form['cat']
