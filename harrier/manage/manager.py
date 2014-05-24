@@ -20,6 +20,7 @@ manager.add_command("shell", Shell(make_context=_make_context))
 
 @manager.command
 def runserver():
+    "Run stand alone test server"
     db.create_all()
     current_app.run(debug=False)
 
