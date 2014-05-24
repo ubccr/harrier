@@ -13,6 +13,7 @@ setup(
     version=VERSION,
     include_package_data=True,
     packages=find_packages(exclude=['tests*']),
+    package_data={'harrier': ['data/*.csv']},
     install_requires=[
         'flask',
         'flask-sqlalchemy',
@@ -20,6 +21,10 @@ setup(
         'flask-wtf',
         'marshmallow',
     ],
+    entry_points='''
+        [console_scripts]
+        harrier=harrier.manage.manager:main
+    ''',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Environment :: Console',
