@@ -35,10 +35,15 @@ class ImageSet(db.Model):
             image.url = row[1]
             image.category = row[2]
             s = ImageSerializer(image)
-            if s.is_valid(['url']):
+            if not s.is_valid(['url']):
+                continue
+
+            if len(current_app.config['ALLOWED_DOMAINS']) > 0:
                 u = urlparse(image.url)
-                if u.netloc in current_app.config['ALLOWED_DOMAINS']:
-                    iset.images.append(image)
+                if u.netloc not in current_app.config['ALLOWED_DOMAINS']:
+                    continue
+
+            iset.images.append(image)
                     
             if count > current_app.config['MAX_IMAGES']:
                 break

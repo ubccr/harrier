@@ -2,6 +2,7 @@ import logging
 import csv
 import os
 from flask.ext.script import Manager,Shell,prompt
+from flask import current_app
 from harrier.web import create_app
 from harrier.core import db
 import harrier.model as model
@@ -16,6 +17,11 @@ manager = Manager(create_app, with_default_commands=False)
 manager.add_option('-c', '--config', dest='config_file', required=False)
 manager.add_command("db", db_mgr)
 manager.add_command("shell", Shell(make_context=_make_context))
+
+@manager.command
+def runserver():
+    db.create_all()
+    current_app.run(debug=False)
 
 @manager.command
 def load(file=None):
