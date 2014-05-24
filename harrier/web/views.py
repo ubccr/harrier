@@ -14,6 +14,10 @@ def index():
     sets = model.ImageSet.query.order_by(model.ImageSet.created_at).offset(offset).limit(limit)
     return flask.render_template('index.html', sets=sets, form=form)
 
+@bp.route('/about')
+def about():
+    return flask.render_template('about.html')
+
 @bp.route('/import', methods=['POST'])
 def import_file():
     form = model.ImageSetForm()
