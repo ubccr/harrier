@@ -9,23 +9,13 @@ from werkzeug import secure_filename
 from harrier.core import db
 from marshmallow import Serializer, fields
 
-imageset_image = db.Table('imageset_image',
-    db.Column('imageset_id', db.Integer, db.ForeignKey('imageset.id'), primary_key=True),
-    db.Column('image_id', db.Integer, db.ForeignKey('image.id'), primary_key=True)
-)
-
-image_target = db.Table('image_target',
-    db.Column('image_id', db.Integer, db.ForeignKey('image.id'), primary_key=True),
-    db.Column('target_id', db.Integer, db.ForeignKey('target.id'), primary_key=True)
-)
-
 class ImageSet(db.Model):
     __tablename__ = 'imageset'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Integer)
     description = db.Column(db.Text)
-    images = db.relationship("Image", secondary=imageset_image, backref=db.backref("imageset", lazy='joined'), lazy='joined')
+    images = db.relationship("Image", backref=db.backref("imageset", lazy='joined'), lazy='joined')
 
     created_at = db.Column(db.DateTime, default=datetime.datetime.now)
     updated_at = db.Column(db.DateTime, onupdate=datetime.datetime.now)
@@ -65,10 +55,11 @@ class Image(db.Model):
     __tablename__ = 'image'
 
     id = db.Column(db.Integer, primary_key=True)
+    imageset_id = db.Column(db.Integer, db.ForeignKey('imageset.id'))
     name = db.Column(db.Integer)
     url = db.Column(db.Text)
     category = db.Column(db.Text)
-    targets = db.relationship("Target", secondary="image_target", backref=db.backref("image", lazy='joined'), lazy='joined')
+    targets = db.relationship("Target", backref=db.backref("image", lazy='joined'), lazy='joined')
 
     def __len__(self):
         return len(self.targets)
@@ -80,6 +71,7 @@ class Target(db.Model):
     __tablename__ = 'target'
 
     id = db.Column(db.Integer, primary_key=True)
+    image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
     x = db.Column(db.Integer)
     y = db.Column(db.Integer)
 
