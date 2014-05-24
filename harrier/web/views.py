@@ -53,7 +53,13 @@ def image_export(id):
 @bp.route('/imageset/<int:id>/target')
 def add_targets(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
-    return flask.render_template('add_targets.html', iset=iset)
+    iid = flask.request.args.get('iid', 0, type=int)
+    index = 0
+    match = [i for i,image in enumerate(iset.images) if image.id == iid]
+    if len(match) == 1:
+        index = match[0]
+
+    return flask.render_template('add_targets.html', iset=iset, index=index)
 
 @bp.route('/imageset/<int:id>/export')
 def imageset_export(id):

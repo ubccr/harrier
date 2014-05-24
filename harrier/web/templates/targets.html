@@ -15,7 +15,8 @@
   <div class="clearfix panel-heading">
     <h3 style="display: inline" class="panel-title"><i class="fa fa-bullseye fa-lg"></i> Targets </h3>
        <div class="btn-group pull-right">
-        <a href="{{ url_for('views.image_export', id=image.id) }}" class="btn btn-default btn-sm">Export</a>
+        <a href="{{ url_for('views.add_targets', id=image.imageset.id, iid=image.id) }}" class="btn btn-default btn-sm"><i class="fa fa-image"></i> View Image</a>
+        <a href="{{ url_for('views.image_export', id=image.id) }}" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export</a>
       </div>
   </div>
 

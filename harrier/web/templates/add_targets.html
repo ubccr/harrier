@@ -16,6 +16,7 @@
        </div>
        <div class="btn-group pull-right">
            <button id="reset" class="btn btn-default"><i class="fa fa-times"></i> Clear</button>
+           <button id="results" class="btn btn-default"><i class="fa fa-check-square-o"></i> Results</button>
            <button class="btn btn-default" data-toggle="modal" data-target=".classify-modal"><i class="fa fa-folder-o"></i> <span id="cat-label">Classify</span></button>
        </div>
    </div>
@@ -49,7 +50,7 @@
 <script src="{{ url_for('static', filename='js/harrier.js') }}"></script>
 <script>
 $(function() {
-    Harrier.init({{ iset.id }}, 0);
+    Harrier.init({{ iset.id }}, {{ index }});
 });
 </script>
 

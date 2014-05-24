@@ -16,6 +16,7 @@ var Harrier = function() {
                 });
                 display();
                 $('#reset').click(reset);
+                $('#results').click(results);
                 $('#prev').click(prev);
                 $('#next').click(next);
                 $('#save-cat').click(saveCategory);
@@ -49,6 +50,10 @@ var Harrier = function() {
         });
         $('.modal').modal('hide');
         display();
+    }
+
+    function results() {
+        window.location.href = '/image/'+images[index];
     }
 
     function reset() {
