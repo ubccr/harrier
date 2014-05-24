@@ -1,6 +1,11 @@
 {% extends "layout.html" %}
 {% block body %}
 
+<ol class="breadcrumb">
+  <li><a href="{{ url_for('views.index') }}">Image Sets</a></li>
+  <li class="active">{{ iset.name }}</li>
+</ol>
+
 <div class="panel panel-primary">
   <div class="clearfix panel-heading">
     <h3 style="display: inline" class="panel-title"><i class="fa fa-image fa-lg"></i> &nbsp;{{ iset.name }}</h3>
@@ -12,7 +17,13 @@
 
     <div class="list-group">
     {% for i in iset.images %}
-      <a href="/targets" class="list-group-item"><span class="badge">{{ i|length }}</span>{{ i.name }}</a>
+      <a href="{{ url_for('views.image_targets', id=i.id) }}" class="list-group-item">
+          {{ i.name }}
+          <span class="badge">{{ i|length }}</span>
+          {% if i.category is not none %}
+              <span class="label label-info"><i class="fa fa-folder-o"></i> {{ i.category }}</span>
+          {% endif %}
+      </a>
     {% endfor %}
     </div>
 

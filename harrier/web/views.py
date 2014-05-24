@@ -24,16 +24,17 @@ def import_file():
 
     return flask.redirect(flask.url_for('views.index'))
 
-@bp.route('/targets')
-def target():
-    return flask.render_template('targets.html', targets=[])
+@bp.route('/image/<int:id>/targets')
+def image_targets(id):
+    image = model.Image.query.filter_by(id=id).first_or_404()
+    return flask.render_template('targets.html', image=image)
 
-@bp.route('/targets/<int:id>')
+@bp.route('/imageset/<int:id>')
 def add_targets(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
     return flask.render_template('add_targets.html', iset=iset)
 
-@bp.route('/imageset/<int:id>')
+@bp.route('/imageset/<int:id>/results')
 def results(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
     return flask.render_template('results.html', iset=iset)
