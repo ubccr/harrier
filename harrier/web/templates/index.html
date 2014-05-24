@@ -41,7 +41,8 @@
       <div class="caption">
         <p>
             <a href="{{ url_for('views.add_targets', id=s.id) }}" class="btn btn-primary" role="button">Add Targets</a>
-            <a href="{{ url_for('views.results', id=s.id) }}" class="btn btn-default" role="button">Results</a>
+            <a href="{{ url_for('views.results', id=s.id) }}" class="btn btn-primary" role="button">Results</a>
+            <a href="{{ url_for('views.imageset_export', id=s.id) }}" class="btn btn-primary" role="button">Share</a>
         </p>
         <h3>{{ s.name }}</h3>
         <p>{{ s.description if s.description is not none }}</p>

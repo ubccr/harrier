@@ -1,4 +1,6 @@
 import flask
+import csv
+import cStringIO
 from harrier.core import db
 import harrier.model as model
 
@@ -24,17 +26,56 @@ def import_file():
 
     return flask.redirect(flask.url_for('views.index'))
 
-@bp.route('/image/<int:id>/targets')
+@bp.route('/image/<int:id>')
 def image_targets(id):
     image = model.Image.query.filter_by(id=id).first_or_404()
     return flask.render_template('targets.html', image=image)
 
-@bp.route('/imageset/<int:id>')
+@bp.route('/image/<int:id>/export')
+def image_export(id):
+    image = model.Image.query.filter_by(id=id).first_or_404()
+
+    def generate():
+        queue = cStringIO.StringIO()
+        writer = csv.writer(queue)
+        writer.writerow(['x', 'y', 'image_name', 'image_category'])
+        data = queue.getvalue()
+        queue.truncate(0)
+        yield data
+        for t in image.targets:
+            writer.writerow([t.x, t.y, image.name, image.category])
+            data = queue.getvalue()
+            queue.truncate(0)
+            yield data
+
+    return flask.Response(generate(), mimetype='text/plain')
+
+@bp.route('/imageset/<int:id>/target')
 def add_targets(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
     return flask.render_template('add_targets.html', iset=iset)
 
-@bp.route('/imageset/<int:id>/results')
+@bp.route('/imageset/<int:id>/export')
+def imageset_export(id):
+    iset = model.ImageSet.query.filter_by(id=id).first_or_404()
+
+    def generate():
+        queue = cStringIO.StringIO()
+        writer = csv.writer(queue)
+        writer.writerow(['x', 'y', 'image_name', 'image_category'])
+        data = queue.getvalue()
+        queue.truncate(0)
+        yield data
+        for image in iset.images:
+            for t in image.targets:
+                writer.writerow([t.x, t.y, image.name, image.category])
+                data = queue.getvalue()
+                queue.truncate(0)
+                yield data
+
+    return flask.Response(generate(), mimetype='text/plain')
+
+@bp.route('/imageset/<int:id>')
 def results(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
     return flask.render_template('results.html', iset=iset)
