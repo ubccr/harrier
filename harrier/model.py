@@ -77,8 +77,8 @@ class Target(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
-    x = db.Column(db.Integer)
-    y = db.Column(db.Integer)
+    x = db.Column(db.Float)
+    y = db.Column(db.Float)
 
     def __repr__(self):
         return '<Target %r>' % (self.name)

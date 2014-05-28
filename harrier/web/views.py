@@ -108,8 +108,8 @@ def image(id):
 def image_target_add(id):
     image = model.Image.query.filter_by(id=id).first_or_404()
     try:
-        x = int(flask.request.form['x'])
-        y = int(flask.request.form['y'])
+        x = float(flask.request.form['x'])
+        y = float(flask.request.form['y'])
         target = model.Target()
         target.x = x
         target.y = y
@@ -117,8 +117,8 @@ def image_target_add(id):
 
         db.session.add(image)
         db.session.commit()
-    except:
-        return flask.jsonify({'error': True}), 400
+    except Exception as e:
+        return flask.jsonify({'error': True, 'msg': e.message}), 400
         
     return flask.jsonify({'error': False})
 
