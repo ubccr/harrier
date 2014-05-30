@@ -1,13 +1,14 @@
 var Harrier = function() {
     var index = 0;
     var images = [];
-    var width = 432;
-    var height = 304;
+    var width = 600;
+    var height = 500;
     var canvas = null;
     var ctx = null;
 
     function init(id, curi) {
         index = curi;
+
         canvas = document.getElementById('drop');
         ctx = canvas.getContext('2d');
         setWidth(width, height);
@@ -35,19 +36,26 @@ var Harrier = function() {
                 $.each(data.images, function(idx, i) {
                     images.push(i.id);
                 });
-                display();
+                display(true);
                 $('#reset').click(reset);
                 $('#results').click(results);
                 $('#zoomin').click(zoomin);
                 $('#zoomout').click(zoomout);
+                $('#zoomreset').click(function() { display(true) });
                 $('#prev').click(prev);
                 $('#next').click(next);
                 $('#save-cat').click(saveCategory);
             }
         });
+
+        $(window).resize(function() {
+            resize(true);
+        });
     }
 
     function setWidth(w, h) {
+        width = w;
+        height = h;
         canvas.width = w;
         canvas.height = h;
     }
@@ -57,7 +65,7 @@ var Harrier = function() {
         if(index > images.length-1) {
             index = 0;
         }
-        display();
+        display(false);
     }
 
     function prev() {
@@ -65,7 +73,7 @@ var Harrier = function() {
         if(index < 0) {
             index = images.length - 1;
         }
-        display();
+        display(false);
     }
 
     function saveCategory() {
@@ -77,7 +85,7 @@ var Harrier = function() {
             }
         });
         $('.modal').modal('hide');
-        display();
+        display(false);
     }
 
     function results() {
@@ -88,14 +96,14 @@ var Harrier = function() {
         width += 50;
         height += 50;
         setWidth(width, height);
-        display();
+        display(false);
     }
 
     function zoomout() {
         width -= 50;
         height -= 50;
         setWidth(width, height);
-        display();
+        display(false);
     }
 
     function reset() {
@@ -105,27 +113,46 @@ var Harrier = function() {
             success: function(data) {
             }
         });
-        display();
+        display(false);
     }
 
-    function display() {
+    function display(reset_size) {
         $.ajax({
             url: '/data/image/'+images[index],
             type: "GET",
             dataType: "json",
             success: function(data) {
-                displayImage(data);
+                displayImage(data, reset_size);
             }
         });
     }
 
-    function displayImage(idata) {
-        ctx.clearRect(0, 0, width, height);
+    function resize(redraw) {
+        var max_width = Math.floor($(window).width() * 0.70);
+        if(width > max_width) {
+            var diff = width - max_width;
+            setWidth(width-diff, height-diff);
+        } else if(width < max_width) {
+        //    var diff = max_width - width;
+         //   setWidth(width+diff, height+diff);
+        }
+        if(redraw) {
+            display(false);
+        }
+    }
+
+    function displayImage(idata, reset_size) {
         var img = new Image();
         img.src = idata.url;
-        img.width = width;
-        img.height = height;
         img.onload = function(){
+            if(reset_size) {
+                setWidth(img.width, img.height);
+                resize(false);
+            }
+            ctx.clearRect(0, 0, width, height);
+            img.width = width;
+            img.height = height;
+
             ctx.drawImage(img, 0, 0, img.width, img.height);
             $.each(idata.targets, function(index, t) {
                 var x = t.x * width;
