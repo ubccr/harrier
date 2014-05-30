@@ -134,15 +134,15 @@ var Harrier = function() {
             });
         }
 
-        $(".image-name").text(idata.name);
+        $("#image-name").text(idata.name);
         $("#cat").val(idata.category);
         if(idata.category && idata.category.length > 0) {
-            $("#cat-label").text(idata.category);
+            $("#cat-label").html('<i class="fa fa-folder-o"></i> '+idata.category);
         } else {
-            $("#cat-label").text('Classify');
+            $("#cat-label").text('');
         }
         var pct = Math.round((index/(images.length-1))*100)
-        $('.progress-bar').css('width', pct+'%').attr('aria-valuenow', index).text((index+1)+' of '+images.length)
+        $("#image-progress").text('Showing image: '+(index+1)+' of '+images.length);
     }
 
     function drawCircle(x, y) {
