@@ -38,6 +38,8 @@ var Harrier = function() {
                 display();
                 $('#reset').click(reset);
                 $('#results').click(results);
+                $('#zoomin').click(zoomin);
+                $('#zoomout').click(zoomout);
                 $('#prev').click(prev);
                 $('#next').click(next);
                 $('#save-cat').click(saveCategory);
@@ -82,6 +84,20 @@ var Harrier = function() {
         window.location.href = '/image/'+images[index];
     }
 
+    function zoomin() {
+        width += 50;
+        height += 50;
+        setWidth(width, height);
+        display();
+    }
+
+    function zoomout() {
+        width -= 50;
+        height -= 50;
+        setWidth(width, height);
+        display();
+    }
+
     function reset() {
         $.ajax({
             url: '/data/image/'+images[index]+'/target/del',
@@ -104,7 +120,6 @@ var Harrier = function() {
     }
 
     function displayImage(idata) {
-        $("#image-slider .caption").width(width);
         ctx.clearRect(0, 0, width, height);
         var img = new Image();
         img.src = idata.url;
@@ -119,7 +134,7 @@ var Harrier = function() {
             });
         }
 
-        $("#image-name").text(idata.name);
+        $(".image-name").text(idata.name);
         $("#cat").val(idata.category);
         if(idata.category && idata.category.length > 0) {
             $("#cat-label").text(idata.category);
