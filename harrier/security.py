@@ -18,7 +18,7 @@ def check_auth():
     return True
 
 def authenticate():
-    return flask.Response('Login required', 401, {'WWW-Authenticate': 'Basic realm="Harrier"'})
+    return flask.make_response(flask.render_template('401.html'), 401, {'WWW-Authenticate': 'Basic realm="Harrier"'})
 
 def requires_auth(f):
     @wraps(f)

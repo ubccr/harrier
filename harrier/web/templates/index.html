@@ -16,6 +16,7 @@
 {% endif %}
 {% endwith %}
 
+{% if request.authorization.username %}
 <div class="well well-lg">
 <form class="form-inline" role="form" action="{{ url_for('views.import_file') }}" method="POST" enctype="multipart/form-data">
   <div class="form-group">
@@ -26,6 +27,7 @@
   <button type="submit" class="btn btn-primary">Import</button>
 </form>
 </div>
+{% endif %}
 
 <div class="page-header">
   <h1><i class="fa fa-image fa-lg"></i> Image Sets</h1>
@@ -40,7 +42,7 @@
       <img src="{{ s.images[0].url }}" alt="...">
       <div class="caption">
         <p>
-            <a href="{{ url_for('views.add_targets', id=s.id) }}" class="btn btn-primary" role="button">Add Targets</a>
+            <a href="{{ url_for('views.add_targets', id=s.id) }}" class="btn btn-primary" role="button">{{ 'Add' if request.authorization.username else 'View' }} Targets</a>
             <a href="{{ url_for('views.results', id=s.id) }}" class="btn btn-primary" role="button">Results</a>
             <a href="{{ url_for('views.imageset_export', id=s.id) }}" class="btn btn-primary" role="button">Share</a>
         </p>

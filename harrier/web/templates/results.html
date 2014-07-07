@@ -10,7 +10,7 @@
   <div class="clearfix panel-heading">
     <h3 style="display: inline" class="panel-title"><i class="fa fa-image fa-lg"></i> &nbsp;{{ iset.name }}</h3>
        <div class="btn-group pull-right">
-        <a href="{{ url_for('views.add_targets', id=iset.id) }}" class="btn btn-default btn-sm"><i class="fa fa-bullseye"></i> Add Targets</a>
+        <a href="{{ url_for('views.add_targets', id=iset.id) }}" class="btn btn-default btn-sm"><i class="fa fa-bullseye"></i> {{ 'Add' if request.authorization.username else 'View' }} Targets</a>
         <a href="{{ url_for('views.imageset_export', id=iset.id) }}" class="btn btn-default btn-sm"><i class="fa fa-download"></i> Export</a>
       </div>
   </div>

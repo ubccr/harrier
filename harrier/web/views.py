@@ -19,6 +19,15 @@ def index():
 def about():
     return flask.render_template('about.html')
 
+@bp.route('/login')
+@requires_auth
+def login():
+    wayf = flask.request.args.get('wayf')
+    if wayf and wayf.startswith('/'):
+        return flask.redirect(wayf)
+
+    return flask.redirect(flask.url_for('views.index'))
+
 @bp.route('/import', methods=['POST'])
 @requires_auth
 def import_file():
@@ -57,7 +66,6 @@ def image_export(id):
     return flask.Response(generate(), mimetype='text/plain')
 
 @bp.route('/imageset/<int:id>/target')
-@requires_auth
 def add_targets(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
     iid = flask.request.args.get('iid', 0, type=int)
@@ -66,7 +74,7 @@ def add_targets(id):
     if len(match) == 1:
         index = match[0]
 
-    return flask.render_template('add_targets.html', iset=iset, index=index)
+    return flask.render_template('add_targets.html', iset=iset, index=index, cache_version=flask.current_app.config['CACHE_VERSION'])
 
 @bp.route('/imageset/<int:id>/export')
 def imageset_export(id):

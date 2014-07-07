@@ -5,28 +5,32 @@ var Harrier = function() {
     var height = 500;
     var canvas = null;
     var ctx = null;
+    var readonly = true;
 
-    function init(id, curi) {
+    function init(id, curi, ro) {
         index = curi;
+        if(!ro) readonly = false;
 
         canvas = document.getElementById('drop');
         ctx = canvas.getContext('2d');
         setWidth(width, height);
 
-        canvas.addEventListener("mousedown", function(evt) {
-            var pos = getPosition(evt);
+        if(!readonly) {
+            canvas.addEventListener("mousedown", function(evt) {
+                var pos = getPosition(evt);
 
-            drawCircle(pos.x,pos.y);
-            var x = pos.x / width;
-            var y = pos.y / height;
-            $.ajax({
-                url: '/data/image/'+images[index]+'/target/add',
-                type: "POST",
-                data: {'x': x, 'y': y},
-                success: function(data) {
-                }
-            });
-        }, false);
+                drawCircle(pos.x,pos.y);
+                var x = pos.x / width;
+                var y = pos.y / height;
+                $.ajax({
+                    url: '/data/image/'+images[index]+'/target/add',
+                    type: "POST",
+                    data: {'x': x, 'y': y},
+                    success: function(data) {
+                    }
+                });
+            }, false);
+        }
 
         $.ajax({
             url: '/data/imageset/'+id,
@@ -77,6 +81,8 @@ var Harrier = function() {
     }
 
     function saveCategory() {
+        if(readonly) return;
+
         $.ajax({
             url: '/data/image/'+images[index]+'/category',
             type: "POST",
@@ -107,6 +113,7 @@ var Harrier = function() {
     }
 
     function reset() {
+        if(readonly) return;
         $.ajax({
             url: '/data/image/'+images[index]+'/target/del',
             type: "DELETE",
