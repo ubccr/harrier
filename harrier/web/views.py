@@ -74,7 +74,11 @@ def add_targets(id):
     if len(match) == 1:
         index = match[0]
 
-    return flask.render_template('add_targets.html', iset=iset, index=index, cache_version=flask.current_app.config['CACHE_VERSION'])
+    return flask.render_template('add_targets.html', 
+            iset=iset, index=index,
+            cache_version=flask.current_app.config['CACHE_VERSION'],
+            shape=flask.current_app.config['DEFAULT_SHAPE']
+        )
 
 @bp.route('/imageset/<int:id>/export')
 def imageset_export(id):

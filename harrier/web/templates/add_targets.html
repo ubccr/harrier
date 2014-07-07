@@ -31,6 +31,9 @@
                 <li><a href="#zoomin" id="zoomin"><i class="fa fa-plus-square"></i> Zoom In</a></li>
                 <li><a href="#zoomout" id="zoomout"><i class="fa fa-minus-square"></i> Zoom Out</a></li>
                 <li><a href="#zoomreset" id="zoomreset"><i class="fa fa-refresh"></i> Reset</a></li>
+                <li class="divider"></li>
+                <li><a href="#circle" id="shape-circle"><i class="fa fa-dot-circle-o"></i> Circle</a></li>
+                <li><a href="#square" id="shape-square"><i class="fa fa-square-o"></i> Square</a></li>
             </ul>
           </div>
       </div>
@@ -68,7 +71,7 @@
 <script src="{{ url_for('static', filename='js/harrier.js') }}?ts={{ cache_version }}"></script>
 <script>
 $(function() {
-    Harrier.init({{ iset.id }}, {{ index }}, {{ 'false' if request.authorization.username else 'true' }});
+    Harrier.init({{ iset.id }}, {{ index }}, {{ 'false' if request.authorization.username else 'true' }}, '{{ shape }}');
 });
 </script>
 

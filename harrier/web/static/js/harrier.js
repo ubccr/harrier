@@ -6,10 +6,14 @@ var Harrier = function() {
     var canvas = null;
     var ctx = null;
     var readonly = true;
+    var shape = 'circle';
 
-    function init(id, curi, ro) {
+    function init(id, curi, ro, sh) {
         index = curi;
         if(!ro) readonly = false;
+        if(sh != 'circle') {
+            shape = 'square';
+        }
 
         canvas = document.getElementById('drop');
         ctx = canvas.getContext('2d');
@@ -19,7 +23,7 @@ var Harrier = function() {
             canvas.addEventListener("mousedown", function(evt) {
                 var pos = getPosition(evt);
 
-                drawCircle(pos.x,pos.y);
+                drawTarget(pos.x,pos.y);
                 var x = pos.x / width;
                 var y = pos.y / height;
                 $.ajax({
@@ -49,12 +53,22 @@ var Harrier = function() {
                 $('#prev').click(prev);
                 $('#next').click(next);
                 $('#save-cat').click(saveCategory);
+                $('#shape-circle').click(function() { setShape('circle') });
+                $('#shape-square').click(function() { setShape('square') });
             }
         });
 
         $(window).resize(function() {
             resize(true);
         });
+    }
+
+    function setShape(sh) {
+        shape = 'circle'
+        if(sh != 'circle') {
+            shape = 'square';
+        }
+        display(false);
     }
 
     function setWidth(w, h) {
@@ -164,7 +178,7 @@ var Harrier = function() {
             $.each(idata.targets, function(index, t) {
                 var x = t.x * width;
                 var y = t.y * height;
-                drawCircle(x,y);
+                drawTarget(x,y);
             });
         }
 
@@ -179,12 +193,17 @@ var Harrier = function() {
         $("#image-progress").text('Showing image: '+(index+1)+' of '+images.length);
     }
 
-    function drawCircle(x, y) {
+    function drawTarget(x, y) {
         ctx.fillStyle = "rgba(255, 0, 0, .3)";
         ctx.beginPath();
-        ctx.arc(x, y, Math.round(width*0.02), 0, Math.PI*2, true);
-        ctx.closePath();
+        var sz = width*0.02
+        if(shape == 'square') {
+            ctx.rect(x-Math.round(sz/2),y-Math.round(sz/2), Math.round(sz), Math.round(sz));
+        } else {
+            ctx.arc(x, y, Math.round(sz), 0, Math.PI*2, true);
+        }
         ctx.fill();
+        ctx.closePath();
     }
 
     function getPosition(evt) {
