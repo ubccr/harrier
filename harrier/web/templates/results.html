@@ -15,9 +15,11 @@
       </div>
   </div>
 
+    {% set has_targets = [] %}
     <div class="list-group">
     {% for i in iset.images %}
       {% if i|length %}
+      {% if has_targets.append(1) %}{% endif %}
       <a href="{{ url_for('views.image_targets', id=i.id) }}" class="list-group-item">
           {{ i.name }}
           <span class="badge">{{ i|length }}</span>
@@ -29,5 +31,10 @@
     {% endfor %}
     </div>
 
+    {% if has_targets|length == 0 %}
+      <div class="panel-body">
+        <p>No targets found. <a href="{{ url_for('views.add_targets', id=iset.id) }}">Please add targets</a></p>
+      </div>
+    {% endif %}
 </div>
 {% endblock %}
