@@ -13,7 +13,7 @@ class ImageSet(db.Model):
     __tablename__ = 'imageset'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Integer)
+    name = db.Column(db.String(255))
     description = db.Column(db.Text)
     images = db.relationship("Image", backref=db.backref("imageset", lazy='joined'), lazy='joined')
 
@@ -29,11 +29,13 @@ class ImageSet(db.Model):
         reader = csv.reader(file_stream)
         count = 0
         for row in reader:
-            if len(row) < 3: continue
+            if len(row) < 2: continue
             image = Image()
             image.name = row[0]
             image.url = row[1]
-            image.category = row[2]
+            if len(row) == 3:
+                image.category = row[2]
+
             s = ImageSerializer(image)
             if not s.is_valid(['url']):
                 continue
@@ -61,7 +63,7 @@ class Image(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     imageset_id = db.Column(db.Integer, db.ForeignKey('imageset.id'))
-    name = db.Column(db.Integer)
+    name = db.Column(db.String(255))
     url = db.Column(db.Text)
     category = db.Column(db.Text)
     targets = db.relationship("Target", backref=db.backref("image", lazy='joined'), lazy='joined')
