@@ -23,7 +23,6 @@ var Harrier = function() {
             canvas.addEventListener("mousedown", function(evt) {
                 var pos = getPosition(evt);
 
-                drawTarget(pos.x,pos.y);
                 var x = pos.x / width;
                 var y = pos.y / height;
                 $.ajax({
@@ -31,6 +30,7 @@ var Harrier = function() {
                     type: "POST",
                     data: {'x': x, 'y': y},
                     success: function(data) {
+                        drawTarget(pos.x,pos.y);
                     }
                 });
             }, false);
@@ -102,10 +102,10 @@ var Harrier = function() {
             type: "POST",
             data: {'cat': $('#cat').val()},
             success: function(data) {
+                $('.modal').modal('hide');
+                display(false);
             }
         });
-        $('.modal').modal('hide');
-        display(false);
     }
 
     function results() {
@@ -132,9 +132,9 @@ var Harrier = function() {
             url: '/data/image/'+images[index]+'/target/del',
             type: "DELETE",
             success: function(data) {
+                display(false);
             }
         });
-        display(false);
     }
 
     function display(reset_size) {
