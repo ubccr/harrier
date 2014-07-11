@@ -17,6 +17,7 @@
 
     <div class="list-group">
     {% for i in iset.images %}
+      {% if i|length %}
       <a href="{{ url_for('views.image_targets', id=i.id) }}" class="list-group-item">
           {{ i.name }}
           <span class="badge">{{ i|length }}</span>
@@ -24,6 +25,7 @@
               <span class="label label-info"><i class="fa fa-folder-o"></i> {{ i.category }}</span>
           {% endif %}
       </a>
+      {% endif %}
     {% endfor %}
     </div>
 
