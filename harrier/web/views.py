@@ -148,6 +148,8 @@ def image_target_del(id):
 def image_category(id):
     image = model.Image.query.filter_by(id=id).first_or_404()
     image.category = flask.request.form['cat']
+    if len(image.category) == 0:
+        image.category = None
     db.session.add(image)
     db.session.commit()
     return flask.jsonify({'error': False})
