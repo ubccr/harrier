@@ -1,8 +1,8 @@
 var Harrier = function() {
     var index = 0;
     var images = [];
-    var width = 600;
-    var height = 500;
+    var width = 632;
+    var height = 504;
     var canvas = null;
     var ctx = null;
     var readonly = true;
@@ -196,7 +196,7 @@ var Harrier = function() {
     function drawTarget(x, y) {
         ctx.fillStyle = "rgba(255, 0, 0, .3)";
         ctx.beginPath();
-        var sz = width*0.02
+        var sz = width*0.026
         if(shape == 'square') {
             ctx.rect(x-Math.round(sz/2),y-Math.round(sz/2), Math.round(sz), Math.round(sz));
         } else {

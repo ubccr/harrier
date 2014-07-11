@@ -53,12 +53,12 @@ def image_export(id):
     def generate():
         queue = cStringIO.StringIO()
         writer = csv.writer(queue)
-        writer.writerow(['x', 'y', 'image_name', 'image_category'])
+        writer.writerow(['rel_x', 'rel_y', 'image_name', 'image_category', 'image_url'])
         data = queue.getvalue()
         queue.truncate(0)
         yield data
         for t in image.targets:
-            writer.writerow([t.x, t.y, image.name, image.category])
+            writer.writerow([t.x, t.y, image.name, image.category, image.url])
             data = queue.getvalue()
             queue.truncate(0)
             yield data
@@ -87,13 +87,13 @@ def imageset_export(id):
     def generate():
         queue = cStringIO.StringIO()
         writer = csv.writer(queue)
-        writer.writerow(['x', 'y', 'image_name', 'image_category'])
+        writer.writerow(['rel_x', 'rel_y', 'image_name', 'image_category', 'image_url'])
         data = queue.getvalue()
         queue.truncate(0)
         yield data
         for image in iset.images:
             for t in image.targets:
-                writer.writerow([t.x, t.y, image.name, image.category])
+                writer.writerow([t.x, t.y, image.name, image.category, image.url])
                 data = queue.getvalue()
                 queue.truncate(0)
                 yield data
