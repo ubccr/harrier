@@ -15,7 +15,7 @@
             <button id="prev" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i> Prev</button>
             <button id="next" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i> Next</button>
           </div>
-          {% if request.authorization.username %}
+          {% if request.authorization.username or config.BASIC_AUTH == false %}
            <div class="btn-group">
             <button id="reset" class="btn btn-default btn-sm"><i class="fa fa-times"></i> Clear</button>
           </div>
@@ -23,7 +23,7 @@
            <div class="btn-group">
             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i> Tools <span class="caret"></span></button>
             <ul class="dropdown-menu" role="menu">
-          {% if request.authorization.username %}
+          {% if request.authorization.username or config.BASIC_AUTH == false %}
                 <li><a href="#classify-modal" data-toggle="modal" data-target=".classify-modal"><i class="fa fa-folder-o"></i> Category</a></li>
           {% endif %}
                 <li><a href="#results" id="results"><i class="fa fa-check-square-o"></i> Results</a></li>
@@ -71,7 +71,7 @@
 <script src="{{ url_for('static', filename='js/harrier.js') }}?ts={{ cache_version }}"></script>
 <script>
 $(function() {
-    Harrier.init({{ iset.id }}, {{ index }}, {{ 'false' if request.authorization.username else 'true' }}, '{{ shape }}');
+    Harrier.init({{ iset.id }}, {{ index }}, {{ 'false' if request.authorization.username or config.BASIC_AUTH == False else 'true' }}, '{{ shape }}');
 });
 </script>
 
