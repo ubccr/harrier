@@ -7,7 +7,7 @@ import flask_wtf
 import flask_wtf.file
 from werkzeug import secure_filename
 from harrier.core import db
-from marshmallow import Serializer, fields
+from marshmallow import Schema, fields
 
 class ImageSet(db.Model):
     __tablename__ = 'imageset'
@@ -36,8 +36,9 @@ class ImageSet(db.Model):
             if len(row) == 3:
                 image.category = row[2]
 
-            s = ImageSerializer(image)
-            if not s.is_valid(['url']):
+            s = ImageSerializer()
+            data, errors = s.dump(image)
+            if 'url' in errors:
                 continue
 
             if len(current_app.config['ALLOWED_DOMAINS']) > 0:
@@ -85,17 +86,17 @@ class Target(db.Model):
     def __repr__(self):
         return '<Target %r>' % (self.name)
 
-class TargetSerializer(Serializer):
+class TargetSerializer(Schema):
     class Meta:
         additional = ('id', 'x', 'y')
 
-class ImageSerializer(Serializer):
+class ImageSerializer(Schema):
     targets = fields.Nested(TargetSerializer, many=True)
     url = fields.Url()
     class Meta:
         additional = ('id', 'name', 'category')
 
-class ImageSetSerializer(Serializer):
+class ImageSetSerializer(Schema):
     images = fields.Nested(ImageSerializer, many=True)
     class Meta:
         additional = ('id', 'name', 'description')
