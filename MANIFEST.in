@@ -1,0 +1,2 @@
+recursive-include harrier/web/templates *
+recursive-include harrier/web/static *
