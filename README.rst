@@ -40,10 +40,10 @@ Quick Start
 2. Import image library. Upload an image library in CSV format.
 
 3. Add Targets. Use the interface to click on image features. The coordinates
-of each target will be saved.
+   of each target will be saved.
 
 4. Share. Export the image feature targets and share with external services,
-for example an X-ray beam etc.
+   for example an X-ray beam etc.
 
 ------------------------------------------------------------------------
 Image Library CSV Format
