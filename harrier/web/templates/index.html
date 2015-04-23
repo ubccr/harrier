@@ -16,7 +16,7 @@
 {% endif %}
 {% endwith %}
 
-{% if request.authorization.username %}
+{% if not config.BASIC_AUTH or request.authorization.username %}
 <div class="well well-lg">
 <form class="form-inline" role="form" action="{{ url_for('views.import_file') }}" method="POST" enctype="multipart/form-data">
   <div class="form-group">
