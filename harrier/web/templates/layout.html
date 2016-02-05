@@ -38,11 +38,11 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="{{ url_for('views.index') }}">Image Sets</a></li>
             <li><a href="{{ url_for('views.about') }}">About</a></li>
-            {% if not(request.authorization.username) %}
+            {% if not(request.authorization.username) and config.BASIC_AUTH %}
                 <li><a href="{{ url_for('views.login', wayf=request.path) }}">Login</a></li>
             {% endif %}
           </ul>
-            {% if request.authorization.username %}
+            {% if request.authorization.username and config.BASIC_AUTH %}
                 <p class="navbar-text">Logged in as: {{ request.authorization.username }}</p>
             {% endif %}
         </div><!--/.nav-collapse -->
