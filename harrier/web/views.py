@@ -112,12 +112,16 @@ def results(id):
 @bp.route('/data/imageset/<int:id>')
 def imageset(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
-    return flask.jsonify(model.ImageSetSerializer(iset).data)
+    schema = model.ImageSetSerializer()
+    result = schema.dump(iset)
+    return flask.jsonify(result.data)
 
 @bp.route('/data/image/<int:id>', methods=['GET'])
 def image(id):
     image = model.Image.query.filter_by(id=id).first_or_404()
-    return flask.jsonify(model.ImageSerializer(image).data)
+    schema = model.ImageSerializer()
+    result = schema.dump(image)
+    return flask.jsonify(result.data)
 
 @bp.route('/data/image/<int:id>/target/add', methods=['POST'])
 @requires_auth
