@@ -53,12 +53,14 @@ def image_export(id):
     def generate():
         queue = cStringIO.StringIO()
         writer = csv.writer(queue)
-        writer.writerow(['rel_x', 'rel_y', 'image_name', 'image_category', 'image_url'])
+        writer.writerow(['rel_x', 'rel_y', 'plate_x', 'plate_y', 'image_name', 'image_category', 'image_url'])
         data = queue.getvalue()
         queue.truncate(0)
         yield data
         for t in image.targets:
-            writer.writerow([t.x, t.y, image.name, image.category, image.url])
+            px = ( ( (t.x*632.0) - (632.0/2.0) ) * 0.003 ) + (11.005+(( (int(image.name)-1) % 48 )*2.25))
+            py = ( ( (504.0/2.0) - (t.y*504.0) ) * -0.003 ) + (7.865+(( int((int(image.name)-1)/48))*2.25))
+            writer.writerow([t.x, t.y, px, py, image.name, image.category, image.url])
             data = queue.getvalue()
             queue.truncate(0)
             yield data
@@ -87,13 +89,15 @@ def imageset_export(id):
     def generate():
         queue = cStringIO.StringIO()
         writer = csv.writer(queue)
-        writer.writerow(['rel_x', 'rel_y', 'image_name', 'image_category', 'image_url'])
+        writer.writerow(['rel_x', 'rel_y', 'plate_x', 'plate_y', 'image_name', 'image_category', 'image_url'])
         data = queue.getvalue()
         queue.truncate(0)
         yield data
         for image in iset.images:
             for t in image.targets:
-                writer.writerow([t.x, t.y, image.name, image.category, image.url])
+                px = ( ( (t.x*632.0) - (632.0/2.0) ) * 0.003 ) + (11.005+(( (int(image.name)-1) % 48 )*2.25))
+                py = ( ( (504.0/2.0) - (t.y*504.0) ) * -0.003 ) + (7.865+(( int((int(image.name)-1)/48))*2.25))
+                writer.writerow([t.x, t.y, px, py, image.name, image.category, image.url])
                 data = queue.getvalue()
                 queue.truncate(0)
                 yield data
