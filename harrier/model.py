@@ -75,6 +75,24 @@ class Image(db.Model):
     def __repr__(self):
         return '<Image %r>' % (self.name)
 
+    def px(self, target):
+        w = current_app.config['IMAGE_WIDTH']
+        mu = current_app.config['MU']
+        mx = current_app.config['MARGIN_X']
+        r = current_app.config['WELLS_PER_ROW']
+        z = current_app.config['WELL_SPACING']
+        px = ( ( (target.x*w) - (w/2.0) ) * mu ) + (mx+(( (int(self.name)-1) % r )*z))
+        return px
+
+    def py(self, target):
+        h = current_app.config['IMAGE_HEIGHT']
+        mu = current_app.config['MU']
+        my = current_app.config['MARGIN_Y']
+        r = current_app.config['WELLS_PER_ROW']
+        z = current_app.config['WELL_SPACING']
+        py = ( ( (h/2.0) - (target.y*h) ) * -mu ) + (my+(( int((int(self.name)-1)/r))*z))
+        return py
+
 class Target(db.Model):
     __tablename__ = 'target'
 
