@@ -16,13 +16,36 @@ Installing from source::
     
     $ git clone git://github.com/ubccr/harrier.git harrier
     $ cd harrier
+    $ pip install -r requirements.txt
     $ python setup.py install
 
 ------------------------------------------------------------------------
 Quick Start
 ------------------------------------------------------------------------
 
-0. Create database directory and configuration file::
+*Note* Any targets you create will be stored in memory only. To store targets
+in a database see next section. 
+
+1. Run the harrier web server::
+
+    $ harrier runserver
+    [INFO]  * Running on http://127.0.0.1:5000/
+
+2. Open your web browser to http://127.0.0.1:5000/
+    
+3. Import image library. Upload an image library in CSV format.
+
+4. Add Targets. Use the interface to click on image features. The coordinates
+   of each target will be saved.
+
+5. Share. Export the image feature targets and share with external services,
+   for example an X-ray beam etc.
+
+------------------------------------------------------------------------
+Save results to sqlite database
+------------------------------------------------------------------------
+
+1. First create database directory and configuration file::
 
     $ mkdir target-data
     $ cd target-data
@@ -31,19 +54,15 @@ Quick Start
     _basedir = os.path.abspath(os.path.dirname(__file__))
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'harrier.db')
 
-
-1. Create empty databse, run the server::
+2. Create empty databse, run the server::
 
     $ harrier -c /path/to/target-data/harrier.cfg db rebuild
     $ harrier -c /path/to/target-data/harrier.cfg runserver
+    [INFO]  * Running on http://127.0.0.1:5000/
     
-2. Import image library. Upload an image library in CSV format.
-
-3. Add Targets. Use the interface to click on image features. The coordinates
-   of each target will be saved.
-
-4. Share. Export the image feature targets and share with external services,
-   for example an X-ray beam etc.
+3. Open your web browser to http://127.0.0.1:5000/ and load image set. Any targets
+   you add will be saved to the harrier.db sqlite database and persist after
+   Harrier is shutdown.
 
 ------------------------------------------------------------------------
 Image Library CSV Format

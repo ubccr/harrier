@@ -15,11 +15,11 @@ setup(
     packages=find_packages(exclude=['tests*']),
     package_data={'harrier': ['data/*.csv']},
     install_requires=[
-        'flask',
-        'flask-sqlalchemy',
-        'flask-script',
-        'flask-wtf',
-        'marshmallow',
+        'Flask',
+        'Flask-SQLAlchemy',
+        'Flask-Script',
+        'Flask-WTF',
+        'Marshmallow',
     ],
     entry_points='''
         [console_scripts]
