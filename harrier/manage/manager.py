@@ -11,7 +11,11 @@ from harrier.manage.database import manager as db_mgr
 def _make_context():
     return dict(app=create_app, db=db, model=model)
 
-logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', datefmt='%Y-%m-%d %H:%M:%S', level=logging.WARNING)
+logging.basicConfig(
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    level=logging.WARN
+)
 
 manager = Manager(create_app, with_default_commands=False)
 manager.add_option('-c', '--config', dest='config_file', required=False)
@@ -21,6 +25,7 @@ manager.add_command("shell", Shell(make_context=_make_context))
 @manager.command
 def runserver():
     "Run stand alone test server"
+    logging.getLogger().setLevel(logging.INFO)
     db.create_all()
     current_app.run(debug=False)
 
