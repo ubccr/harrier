@@ -2,7 +2,7 @@
 harrier - touch screen image targeting
 ===============================================================================
 
-.. image:: docs/harrier-logo.png
+.. image:: docs/harrier-logo.jpg
 
 ------------------------------------------------------------------------
 What is harrier?
