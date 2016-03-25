@@ -1,5 +1,5 @@
 ===============================================================================
-Harrier - touch screen image targeting
+Harrier - screen to beam image targeting
 ===============================================================================
 
 .. image:: docs/harrier-logo.jpg
@@ -8,7 +8,24 @@ Harrier - touch screen image targeting
 What is Harrier?
 ------------------------------------------------------------------------
 
-Harrier is a point and share image library analysis tool. 
+In the field of X-ray crystallography, images obtained from crystallization
+experiments need to be interpreted for successful outcomes (crystals). If
+success occurs, images of mounted crystals are later used to position them
+appropriate to the X-ray beam for diffraction analysis.  
+
+Harrier is a web application optimized for touch screen devices that provides a
+haptic interface to the visualization, classification, and notation of
+experimental crystallization data. Images from crystallization outcomes are
+presented allowing the user to select features of the image. The positions are
+captured by Harrier and converted to coordinates of the screening plate. The
+set of features can be exported using a REST based endpoint and used by a
+mounting robot for X-ray evaluation of the initial screening result.
+
+Harrier links the analysis of crystallization outcomes to the subsequent
+diffraction analysis eliminating an initial optimization step and enabling
+crystallization screening plates to be analyzed in the beam efficiently.
+
+Live demo `here <http://harrier.ccr.buffalo.edu>`_.
 
 ------------------------------------------------------------------------
 Install
@@ -109,3 +126,9 @@ License
 
 Harrier is released under the GNU General Public License ("GPL") Version 3.0.
 See the LICENSE file.
+
+------------------------------------------------------------------------
+Screenshot
+------------------------------------------------------------------------
+
+.. image:: docs/harrier-screen-shot.png
