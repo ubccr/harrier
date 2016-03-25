@@ -1,11 +1,11 @@
 ===============================================================================
-harrier - touch screen image targeting
+Harrier - touch screen image targeting
 ===============================================================================
 
 .. image:: docs/harrier-logo.jpg
 
 ------------------------------------------------------------------------
-What is harrier?
+What is Harrier?
 ------------------------------------------------------------------------
 
 Harrier is a point and share image library analysis tool. 
@@ -39,7 +39,7 @@ in a database see next section.
 
 2. Open your web browser to http://127.0.0.1:5000/
     
-3. Import image library. Upload an image library in CSV format.
+3. Import image set library. Upload an image set library in CSV format.
 
 4. Add Targets. Use the interface to click on image features. The coordinates
    of each target will be saved.
@@ -71,10 +71,10 @@ Save results to sqlite database
    Harrier is shutdown.
 
 ------------------------------------------------------------------------
-Image Library CSV Format
+Image Set CSV Format
 ------------------------------------------------------------------------
 
-Image libraries can be imported in a simple CSV format. The fields are as
+Image set libraries can be imported in a simple CSV format. The fields are as
 follows::
 
     [image name],[image url],[category]
