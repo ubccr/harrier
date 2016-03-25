@@ -14,16 +14,18 @@ Harrier is a point and share image library analysis tool.
 Install
 ------------------------------------------------------------------------
 
-To install harrier via pip::
-
-    $ pip install harrier
-
 Installing from source::
     
     $ git clone git://github.com/ubccr/harrier.git harrier
     $ cd harrier
     $ pip install -r requirements.txt
     $ python setup.py install
+
+Run Harrier in Docker container::
+
+    $ docker build -t harrier .
+    $ docker run -it --rm --name harrier \
+         -p 5000:5000 harrier runserver --host=0.0.0.0
 
 ------------------------------------------------------------------------
 Quick Start
