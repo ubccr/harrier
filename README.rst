@@ -92,8 +92,18 @@ the command line run::
     $ harrier -c /path/to/target-data/harrier.cfg load -f X000014542-images.csv
 
 ------------------------------------------------------------------------
+Run using uWSGI
+------------------------------------------------------------------------
+
+To run Harrier using uWSGI::
+
+    $ pip install uwsgi
+    $ cd [path to harrier]
+    $ uwsgi --socket 127.0.0.1:5000 --protocol=http -w wsgi:application
+
+------------------------------------------------------------------------
 License
 ------------------------------------------------------------------------
 
-harrier is released under the GNU General Public License ("GPL") Version 3.0.
+Harrier is released under the GNU General Public License ("GPL") Version 3.0.
 See the LICENSE file.
