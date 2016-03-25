@@ -23,11 +23,11 @@ manager.add_command("db", db_mgr)
 manager.add_command("shell", Shell(make_context=_make_context))
 
 @manager.command
-def runserver():
+def runserver(host='127.0.0.1'):
     "Run stand alone test server"
     logging.getLogger().setLevel(logging.INFO)
     db.create_all()
-    current_app.run(debug=False)
+    current_app.run(host=host, debug=False)
 
 @manager.command
 def load(file=None):
