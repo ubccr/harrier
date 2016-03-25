@@ -65,7 +65,7 @@ def image_export(id):
             queue.truncate(0)
             yield data
 
-    return flask.Response(generate(), mimetype='text/plain')
+    return flask.Response(flask.stream_with_context(generate()), mimetype='text/plain')
 
 @bp.route('/imageset/<int:id>/target')
 def add_targets(id):
@@ -102,7 +102,7 @@ def imageset_export(id):
                 queue.truncate(0)
                 yield data
 
-    return flask.Response(generate(), mimetype='text/plain')
+    return flask.Response(flask.stream_with_context(generate()), mimetype='text/plain')
 
 @bp.route('/imageset/<int:id>')
 def results(id):
