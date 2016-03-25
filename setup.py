@@ -12,8 +12,8 @@ setup(
     author_email='aebruno2@buffalo.edu',
     version=VERSION,
     include_package_data=True,
+    zip_safe=False,
     packages=find_packages(exclude=['tests*']),
-    package_data={'harrier': ['data/*.csv']},
     install_requires=[
         'Flask',
         'Flask-SQLAlchemy',
