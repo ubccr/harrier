@@ -1,4 +1,4 @@
-from flask.ext.script import Manager,prompt_bool,prompt
+from flask_script import Manager,prompt_bool,prompt
 from harrier.core import db
 import harrier.model as model
 

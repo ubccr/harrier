@@ -1,6 +1,6 @@
 import flask
 import csv
-import cStringIO
+from io import StringIO
 from harrier.core import db
 from harrier.security import requires_auth
 import harrier.model as model
@@ -51,7 +51,7 @@ def image_export(id):
     image = model.Image.query.filter_by(id=id).first_or_404()
 
     def generate():
-        queue = cStringIO.StringIO()
+        queue = StringIO()
         writer = csv.writer(queue)
         writer.writerow(['rel_x', 'rel_y', 'plate_x', 'plate_y', 'image_name', 'image_category', 'image_url'])
         data = queue.getvalue()
@@ -87,7 +87,7 @@ def imageset_export(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
 
     def generate():
-        queue = cStringIO.StringIO()
+        queue = StringIO()
         writer = csv.writer(queue)
         writer.writerow(['rel_x', 'rel_y', 'plate_x', 'plate_y', 'image_name', 'image_category', 'image_url'])
         data = queue.getvalue()

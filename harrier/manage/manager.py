@@ -1,7 +1,7 @@
 import logging
 import csv
 import os
-from flask.ext.script import Manager,Shell,prompt
+from flask_script import Manager,Shell,prompt
 from flask import current_app
 from harrier.web import create_app
 from harrier.core import db
@@ -33,7 +33,7 @@ def runserver(host='127.0.0.1'):
 def load(file=None):
     "Load data from file"
     if file is None:
-        print "Please provide an input file"
+        print("Please provide an input file")
         return 1
 
     path = os.path.splitext(os.path.basename(file))[0]
@@ -45,7 +45,7 @@ def load(file=None):
     with open(file, 'rb') as fh:
         iset = model.ImageSet.from_csv(fh, name=name, description=description)
         if len(iset) == 0:
-            print "Invalid file format. No images found!"
+            print("Invalid file format. No images found!")
             return 1
 
     db.session.add(iset)

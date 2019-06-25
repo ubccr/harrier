@@ -1,7 +1,7 @@
 import csv
 import os
 import datetime
-from urlparse import urlparse
+from urllib.parse import urlparse
 from flask import current_app
 import flask_wtf
 import flask_wtf.file
