@@ -1,6 +1,5 @@
 import flask
 import csv
-from io import StringIO
 from harrier.core import db
 from harrier.security import requires_auth
 import harrier.model as model
@@ -51,19 +50,12 @@ def image_export(id):
     image = model.Image.query.filter_by(id=id).first_or_404()
 
     def generate():
-        queue = StringIO()
-        writer = csv.writer(queue)
-        writer.writerow(['rel_x', 'rel_y', 'plate_x', 'plate_y', 'image_name', 'image_category', 'image_url'])
-        data = queue.getvalue()
-        queue.truncate(0)
-        yield data
+        yield ','.join(['rel_x', 'rel_y', 'plate_x', 'plate_y', 'image_name', 'image_category', 'image_url']) + '\n'
+        yield data.encode('utf-8')
         for t in image.targets:
             px = image.px(t)
             py = image.py(t)
-            writer.writerow([t.x, t.y, px, py, image.name, image.category, image.url])
-            data = queue.getvalue()
-            queue.truncate(0)
-            yield data
+            yield ','.join([str(x) for x in [t.x, t.y, px, py, image.name, image.category, image.url]]) + '\n'
 
     return flask.Response(flask.stream_with_context(generate()), mimetype='text/plain')
 
@@ -87,20 +79,12 @@ def imageset_export(id):
     iset = model.ImageSet.query.filter_by(id=id).first_or_404()
 
     def generate():
-        queue = StringIO()
-        writer = csv.writer(queue)
-        writer.writerow(['rel_x', 'rel_y', 'plate_x', 'plate_y', 'image_name', 'image_category', 'image_url'])
-        data = queue.getvalue()
-        queue.truncate(0)
-        yield data
+        yield ','.join(['rel_x', 'rel_y', 'plate_x', 'plate_y', 'image_name', 'image_category', 'image_url']) + '\n'
         for image in iset.images:
             for t in image.targets:
                 px = image.px(t)
                 py = image.py(t)
-                writer.writerow([t.x, t.y, px, py, image.name, image.category, image.url])
-                data = queue.getvalue()
-                queue.truncate(0)
-                yield data
+                yield ','.join([str(x) for x in [t.x, t.y, px, py, image.name, image.category, image.url]]) + '\n'
 
     return flask.Response(flask.stream_with_context(generate()), mimetype='text/plain')
 
