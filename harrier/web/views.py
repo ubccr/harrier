@@ -51,7 +51,6 @@ def image_export(id):
 
     def generate():
         yield ','.join(['rel_x', 'rel_y', 'plate_x', 'plate_y', 'image_name', 'image_category', 'image_url']) + '\n'
-        yield data.encode('utf-8')
         for t in image.targets:
             px = image.px(t)
             py = image.py(t)
